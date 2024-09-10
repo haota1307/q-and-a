@@ -21,7 +21,7 @@ const ValuePropositions = () => {
       {valuePropositionsArr.map(({ title, icon: Icon, description }) => (
         <div key={title} className="flex flex-col items-start gap-y-2">
           <div className="inline-flex items-center gap-x-2">
-            <Icon size={24} className="stroke-blue-600" />
+            <Icon size={24} className="stroke-indigo-600" />
             <h2 className="text-xl font-bold text-pretty">{title}</h2>
           </div>
 

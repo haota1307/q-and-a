@@ -1,15 +1,20 @@
-import GetStartedButton from "@/app/(landing)/components/GetStartedButton";
-import Headline from "@/app/(landing)/components/Headline";
-import ValuePropositions from "@/app/(landing)/components/ValuePropositions";
+import AuthButtons from "@/components/buttons/auth-buttons";
+import GetStartedButton from "@/components/buttons/get-started-button";
+import Headline from "@/app/(landing)/components/head-line";
+import ValuePropositions from "@/app/(landing)/components/value-propositions";
+import { AuthLoader } from "@/components/loader";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
+import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 
 export default function LandingPage() {
   return (
     <main className="px-4 flex flex-col min-h-screen items-start bg-gradient-to-br from-[#faf0ff] to-[#ece0ff] pb-20">
-      {
-        // TODO: Thêm navbar
-      }
+      <Suspense fallback={<AuthLoader className="ml-auto mt-6" />}>
+        <AuthButtons className="ml-auto mt-6" />
+      </Suspense>
       <div className="relative mx-auto w-full flex flex-col items-center gap-y-8 mt-10 lg:mt-16">
         <Headline />
         <GetStartedButton />
