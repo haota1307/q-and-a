@@ -28,13 +28,13 @@ export const NotFound = ({
 );
 
 export const NoContent = ({
-  width = 180,
-  height = 180,
+  width = 360,
+  height = 360,
   children,
   className,
 }: Props) => (
   <div className={cn("flex flex-col items-center", className)}>
-    <Image src="/create.svg" alt="empty" height={height} width={width} />
+    <Image src="/no-content.svg" alt="empty" height={height} width={width} />
     {children}
   </div>
 );

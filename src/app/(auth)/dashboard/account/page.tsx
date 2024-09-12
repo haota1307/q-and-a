@@ -1,7 +1,27 @@
-const MyAccountPage = () => {
+import { getUserInfo } from "@/lib/server/get-user-info";
+import { onlyDateFormatter } from "@/lib/utils/date-utils";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+const MyAccountPage = async () => {
+  const kindeUser = await getKindeServerSession().getUser();
+  const user = kindeUser && (await getUserInfo(kindeUser.id));
+
+  if (!user) {
+    throw new Error("Invalid user!");
+  }
+
   return (
-    <div>
-      <h2 className="text-2xl font-bold">My account</h2>
+    <div className="w-full h-full flex flex-col items-center mt-32">
+      <h1 className="text-2xl font-bold mt-3">{user.displayName}</h1>
+      <time className="text-xs text-gray-500" suppressHydrationWarning>
+        Gia nhập: {onlyDateFormatter.format(user.createdAt)}
+      </time>
+      <ul className="text-sm text-muted-foreground mt-6 space-y-1">
+        <li>Sự kiện: {user._count.events}</li>
+        <li>Câu hỏi: {user._count.questions}</li>
+        <li>Tham gia: {user._count.participations}</li>
+        <li>Đánh dấu: {user._count.bookmarks}</li>
+      </ul>
     </div>
   );
 };

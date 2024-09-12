@@ -23,7 +23,8 @@ const DashboardLayout = async ({ children }: PropsWithChildren) => {
   return (
     <div className="flex flex-row h-full">
       <DesktopDashboardSidebar />
-      <div className="flex flex-col overflow-hidden w-auto items-start">
+
+      <div className="flex flex-col overflow-auto w-full items-start grow-1">
         <MobileDashboardSidebar />
 
         {children}
