@@ -1,5 +1,5 @@
 import { Bookmark, LogOut, Quote, User2 } from "lucide-react";
-import routes from "@/app/config/routes";
+import routes from "@/config/routes";
 import { usePathname, useRouter } from "next/navigation";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs";
 import { cn } from "@/lib/utils";

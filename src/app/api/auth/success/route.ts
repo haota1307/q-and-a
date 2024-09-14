@@ -3,7 +3,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { faker } from "@faker-js/faker";
 import colors from "tailwindcss/colors";
 import { NextResponse } from "next/server";
-import routes, { baseUrl } from "@/app/config/routes";
+import routes, { baseUrl } from "@/config/routes";
 
 // Will run every time a user sign up or sign in
 export async function GET() {

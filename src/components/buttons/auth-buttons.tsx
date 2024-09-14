@@ -1,5 +1,5 @@
 import PublicAuthButtons from "@/components/buttons/public-auth-buttons";
-import routes from "@/app/config/routes";
+import routes from "@/config/routes";
 import { UserAvatar } from "@/components/user-avatar";
 import { getUserInfo } from "@/lib/server/get-user-info";
 import { cn } from "@/lib/utils";

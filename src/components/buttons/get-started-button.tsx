@@ -1,6 +1,6 @@
 "use client";
 
-import routes from "@/app/config/routes";
+import routes from "@/config/routes";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {

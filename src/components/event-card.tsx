@@ -1,3 +1,4 @@
+import routes from "@/config/routes";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { EventDetail } from "@/lib/prisma/validators/event-validators";
 import { cn } from "@/lib/utils";
@@ -11,10 +12,16 @@ type Props = PropsWithClassName<{
 
 const EventCard = ({ event, className }: Props) => {
   return (
-    <Link href={"#"} prefetch={false}>
+    <Link
+      href={routes.event({
+        eventSlug: event.slug,
+        ownerId: event.ownerId,
+      })}
+      prefetch={false}
+    >
       <Card
         className={cn(
-          "rounded-none border-l-[4px] border-b-0 border-t-0 border-r-0 border-indigo-400/80",
+          "rounded-none border-l-[4px] border-b-0 border-t-0 border-r-0 border-violet-400/80",
           className
         )}
       >
@@ -25,7 +32,7 @@ const EventCard = ({ event, className }: Props) => {
             </h4>
           </div>
 
-          <div className="flex justify-between text-[12px] text-indigo-300 font-medium">
+          <div className="flex justify-between text-[12px] text-violet-300 font-medium">
             <span>
               <span>Q&A: {event._count.questions}</span>
               <span className="mx-2">&bull;</span>

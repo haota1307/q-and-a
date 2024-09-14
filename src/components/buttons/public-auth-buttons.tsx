@@ -1,6 +1,6 @@
 "use client";
 
-import routes, { baseUrl } from "@/app/config/routes";
+import routes, { baseUrl } from "@/config/routes";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PropsWithClassName } from "@/lib/utils/ui-utils";

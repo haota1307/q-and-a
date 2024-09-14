@@ -13,7 +13,7 @@ export const DesktopDashboardSidebar = ({ className }: PropsWithClassName) => {
   return (
     <aside
       className={cn(
-        "border-r-indigo-500/30 h-full shrink-0 grow-0 border-r hidden lg:block lg:basis-[250px]",
+        "border-r-violet-500/30 h-full shrink-0 grow-0 border-r hidden lg:block lg:basis-[250px]",
         className
       )}
     >

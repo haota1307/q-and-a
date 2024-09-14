@@ -1,4 +1,4 @@
-import routes from "@/app/config/routes";
+import routes from "@/config/routes";
 import { NotFound } from "@/components/illustrations";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -18,5 +18,3 @@ const NotFoundPage = () => {
 };
 
 export default NotFoundPage;
-
-//2 43 30

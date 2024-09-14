@@ -6,11 +6,14 @@ type Props = PropsWithClassName<{
   color: string;
 }>;
 
-// Tran Hao -> TH
-const getFullNameInitials = (name: string) => {
-  const initials = name.match(/\b\w/g) || [];
+const getFullNameInitials = (name: string): string => {
+  // Chia tên thành các từ, bao gồm cả từ có dấu
+  const words = name.split(/\s+/);
 
-  return initials.join("").toUpperCase();
+  // Lấy chữ cái đầu tiên của mỗi từ và chuyển thành chữ hoa
+  const initials = words.map((word) => word.charAt(0).toUpperCase());
+
+  return initials.join("");
 };
 
 export const UserAvatar = ({ displayName, color, className }: Props) => {

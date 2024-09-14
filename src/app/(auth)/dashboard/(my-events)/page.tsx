@@ -12,7 +12,7 @@ const MyEventsPage = async () => {
 
       <div className="h-full grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
         <button className="h-24 md:h-36 bg-white/50 border-[3px] border-spacing-4 border-dashed grid place-items-center group">
-          <span className="inline-flex flex-col items-center gap-x-1 font-medium group-hover:text-indigo-600 transition-colors duration-200">
+          <span className="inline-flex flex-col items-center gap-x-1 font-medium group-hover:text-violet-600 transition-colors duration-200">
             <Plus className="size-5" />
             <span>Thêm sự kiện</span>
           </span>

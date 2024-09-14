@@ -1,7 +1,7 @@
 "use client";
 
 import { PropsWithClassName } from "@/lib/utils/ui-utils";
-import { indigo } from "tailwindcss/colors";
+import { violet } from "tailwindcss/colors";
 import { Skeleton } from "./ui/skeleton";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export const Loader = () => {
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      <Loader2 color={indigo[600]} size={16} className="animate-spin" />
+      <Loader2 color={violet[600]} size={30} className="animate-spin" />
     </div>
   );
 };

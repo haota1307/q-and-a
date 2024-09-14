@@ -1,5 +1,5 @@
 import AuthButtons from "@/components/buttons/auth-buttons";
-import routes from "@/app/config/routes";
+import routes from "@/config/routes";
 import Logo from "@/components/layout/logo";
 import Link from "next/link";
 import { Suspense } from "react";
