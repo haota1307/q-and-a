@@ -19,7 +19,7 @@ export const getUserEvents = cache(async ({ cursor }: Params = {}) => {
   console.log(user);
 
   if (!user || !user.id) {
-    throw new Error("Not authenticated");
+    throw new Error("Người dùng chưa đăng nhập!");
   }
 
   return await prisma.event.findMany({

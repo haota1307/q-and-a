@@ -1,5 +1,6 @@
 "use client";
 
+import { useVote } from "@/hooks/use-question";
 import { QuestionDetail } from "@/lib/prisma/validators/question-validators";
 import { cn } from "@/lib/utils";
 import { PropsWithClassName } from "@/lib/utils/ui-utils";
@@ -21,13 +22,17 @@ const QuestionVoteButton = ({
   eventSlug,
   isResolved,
   questionId,
-  totalVotes,
+  totalVotes: initialTotalVotes,
   upvotes,
   className,
 }: Props) => {
   const { user } = useKindeBrowserClient();
 
-  const isUpvoted = upvotes.some((upvote) => upvote.authorId === user?.id);
+  const { handleVote, isUpvoted, totalVotes } = useVote({
+    questionId,
+    upvotes,
+    totalVotes: initialTotalVotes,
+  });
 
   if (!user) {
     return (
@@ -47,9 +52,10 @@ const QuestionVoteButton = ({
         className
       )}
       disabled={isResolved}
+      onClick={handleVote}
     >
-      <ThumbsUp className={cn(isUpvoted && "stroke-blue-500")} />
-      <span className={cn("px-2 pt-1 text-sm", isUpvoted && "text-blue-500")}>
+      <ThumbsUp className={cn(isUpvoted && "stroke-violet-500")} />
+      <span className={cn("px-2 pt-1 text-sm", isUpvoted && "text-violet-500")}>
         {totalVotes}
       </span>
     </button>

@@ -1,14 +1,20 @@
 "use client";
 
-import QuestionVoteButton from "@/components/buttons/question-vote-button";
-import QuestionOptionsMenu from "@/components/menu/question-options-menu";
-import { UserAvatar } from "@/components/user-avatar";
+import {
+  useTogglePin,
+  useToggleResolved,
+  useUpdateQuestionBody,
+} from "@/hooks/use-question";
 import { QuestionDetail } from "@/lib/prisma/validators/question-validators";
-import { cn } from "@/lib/utils";
 import { defaultDateFormatter } from "@/lib/utils/date-utils";
+import { questionBodySchema } from "@/lib/validations/question-schemas";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { CheckCircle, Pin } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { cn } from "@/lib/utils";
+import QuestionVoteButton from "@/components/buttons/question-vote-button";
+import { UserAvatar } from "@/components/user-avatar";
+import QuestionOptionsMenu from "@/components/menu/question-options-menu";
 
 type Props = {
   question: QuestionDetail;
@@ -17,11 +23,31 @@ type Props = {
 const Question = ({ question }: Props) => {
   const { user } = useKindeBrowserClient();
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  const { author, createdAt, isPinned, isResolved, body } = question;
+  const { author, createdAt } = question;
   const isAuthor = author.id === user?.id;
-  const isOwner = question.event.ownerId === user?.id;
+  const isAdmin = question.event.ownerId === user?.id;
+
+  const { isPinned, togglePin } = useTogglePin({
+    questionId: question.id,
+    isPinned: question.isPinned,
+  });
+
+  const { isResolved, toggleResolved } = useToggleResolved({
+    questionId: question.id,
+    isResolved: question.isResolved,
+  });
+
+  const {
+    body,
+    updateBody,
+    isExecuting: isUpdatingBody,
+  } = useUpdateQuestionBody({
+    questionId: question.id,
+    body: question.body,
+  });
 
   return (
     <div
@@ -31,7 +57,7 @@ const Question = ({ question }: Props) => {
       )}
     >
       <div className="flex items-center gap-x-5">
-        {/* Vote btn */}
+        {/* Vote button */}
         {!isEditing && (
           <QuestionVoteButton
             ownerId={question.event.ownerId}
@@ -64,7 +90,7 @@ const Question = ({ question }: Props) => {
             {isPinned && (
               <Pin
                 size={20}
-                className="inline-block ml-2 stroke-yellow-500 -rotate-45"
+                className="inline-block ml-2 fill-yellow-300 -rotate-45"
               />
             )}
 
@@ -74,25 +100,24 @@ const Question = ({ question }: Props) => {
 
             {!isResolved && (
               <QuestionOptionsMenu
-                isAdmin={isOwner}
-                isAuthor={isAuthor}
+                questionId={question.id}
                 isEditing={isEditing}
+                isAdmin={isAdmin}
+                isAuthor={isAuthor}
                 isPinned={isPinned}
                 isResolved={isResolved}
-                questionId={question.id}
-                onPinChange={() => {}}
-                onResolveChange={() => {}}
                 toggleEditingMode={() => setIsEditing(true)}
+                onPinChange={togglePin}
+                onResolveChange={toggleResolved}
                 className="text-slate-600 ml-auto"
               />
             )}
           </div>
+
           {/* Question body or editor */}
           {!isEditing && (
             <p className="mt-5 ml-3 whitespace-pre-wrap text-sm">{body}</p>
           )}
-
-          {isEditing && <form></form>}
         </div>
       </div>
     </div>
