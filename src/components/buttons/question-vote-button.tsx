@@ -27,7 +27,7 @@ const QuestionVoteButton = ({
 }: Props) => {
   const { user } = useKindeBrowserClient();
 
-  const isUpvoted = false;
+  const isUpvoted = upvotes.some((upvote) => upvote.authorId === user?.id);
 
   if (!user) {
     return (

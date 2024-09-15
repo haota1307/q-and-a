@@ -1,11 +1,13 @@
 "use client";
 
+import QuestionVoteButton from "@/components/buttons/question-vote-button";
+import QuestionOptionsMenu from "@/components/menu/question-options-menu";
 import { UserAvatar } from "@/components/user-avatar";
 import { QuestionDetail } from "@/lib/prisma/validators/question-validators";
 import { cn } from "@/lib/utils";
 import { defaultDateFormatter } from "@/lib/utils/date-utils";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { CheckCircle, EllipsisVertical, Pin } from "lucide-react";
+import { CheckCircle, Pin } from "lucide-react";
 import { useState } from "react";
 
 type Props = {
@@ -30,7 +32,16 @@ const Question = ({ question }: Props) => {
     >
       <div className="flex items-center gap-x-5">
         {/* Vote btn */}
-        {!isEditing && <button>{question._count.upvotes}</button>}
+        {!isEditing && (
+          <QuestionVoteButton
+            ownerId={question.event.ownerId}
+            eventSlug={question.event.slug}
+            upvotes={question.upvotes}
+            questionId={question.id}
+            totalVotes={question._count.upvotes}
+            isResolved={isResolved}
+          />
+        )}
 
         <div className="flex-1 grow-1">
           {/* Header */}
@@ -53,7 +64,7 @@ const Question = ({ question }: Props) => {
             {isPinned && (
               <Pin
                 size={20}
-                className="inline-block ml-2 fill-yellow-300 -rotate-45"
+                className="inline-block ml-2 stroke-yellow-500 -rotate-45"
               />
             )}
 
@@ -61,7 +72,20 @@ const Question = ({ question }: Props) => {
               <CheckCircle className="stroke-green-500" size={20} />
             )}
 
-            {!isResolved && <EllipsisVertical size={16} className="ml-auto" />}
+            {!isResolved && (
+              <QuestionOptionsMenu
+                isAdmin={isOwner}
+                isAuthor={isAuthor}
+                isEditing={isEditing}
+                isPinned={isPinned}
+                isResolved={isResolved}
+                questionId={question.id}
+                onPinChange={() => {}}
+                onResolveChange={() => {}}
+                toggleEditingMode={() => setIsEditing(true)}
+                className="text-slate-600 ml-auto"
+              />
+            )}
           </div>
           {/* Question body or editor */}
           {!isEditing && (
