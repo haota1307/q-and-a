@@ -7,7 +7,7 @@ const MyAccountPage = async () => {
   const user = kindeUser && (await getUserInfo(kindeUser.id));
 
   if (!user) {
-    throw new Error("Invalid user!");
+    throw new Error("Người dùng không hợp lệ");
   }
 
   return (

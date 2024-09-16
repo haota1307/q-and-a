@@ -15,7 +15,7 @@ import {
 } from "../ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { DeleteEventDialog } from "@/components/dialogs/delete-event-dialog";
-import { useIsParticipantView } from "@/hooks/use-is-participant-view";
+import { useIsParticipantView } from "@/hooks/useIsParticipantView";
 
 type Props = PropsWithClassName<{
   event: EventDetail;

@@ -17,7 +17,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useIsParticipantView } from "@/hooks/use-is-participant-view";
+import { useIsParticipantView } from "@/hooks/useIsParticipantView";
 import DeleteQuestionDialog from "@/components/dialogs/delete-question-dialog";
 
 type Props = PropsWithClassName<{

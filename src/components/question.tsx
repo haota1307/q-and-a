@@ -4,10 +4,9 @@ import {
   useTogglePin,
   useToggleResolved,
   useUpdateQuestionBody,
-} from "@/hooks/use-question";
+} from "@/hooks/useQuestion";
 import { QuestionDetail } from "@/lib/prisma/validators/question-validators";
 import { defaultDateFormatter } from "@/lib/utils/date-utils";
-import { questionBodySchema } from "@/lib/validations/question-schemas";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { CheckCircle, Pin } from "lucide-react";
 import { useRef, useState } from "react";
@@ -15,6 +14,9 @@ import { cn } from "@/lib/utils";
 import QuestionVoteButton from "@/components/buttons/question-vote-button";
 import { UserAvatar } from "@/components/user-avatar";
 import QuestionOptionsMenu from "@/components/menu/question-options-menu";
+import TextAreaWithCounter from "@/components/text-area-with-counter";
+import { Button } from "@/components/ui/button";
+import { questionBodySchema } from "@/lib/validations/question-schemas";
 
 type Props = {
   question: QuestionDetail;
@@ -42,12 +44,26 @@ const Question = ({ question }: Props) => {
 
   const {
     body,
-    updateBody,
     isExecuting: isUpdatingBody,
+    updateBody,
   } = useUpdateQuestionBody({
     questionId: question.id,
     body: question.body,
   });
+
+  const handleBodyChange = () => {
+    const rawBodyValue = textareaRef.current?.value;
+
+    const parsedBody = questionBodySchema.safeParse(rawBodyValue);
+
+    if (parsedBody.success) {
+      const newBody = parsedBody.data;
+
+      setIsEditing(false);
+
+      updateBody(newBody);
+    }
+  };
 
   return (
     <div
@@ -117,6 +133,33 @@ const Question = ({ question }: Props) => {
           {/* Question body or editor */}
           {!isEditing && (
             <p className="mt-5 ml-3 whitespace-pre-wrap text-sm">{body}</p>
+          )}
+
+          {isEditing && (
+            <form
+              onSubmit={(evt) => {
+                evt.preventDefault();
+
+                handleBodyChange();
+              }}
+            >
+              <TextAreaWithCounter
+                ref={textareaRef}
+                className="mt-3 min-h-24"
+                defaultValue={body}
+                maxLength={2500}
+                autoFocus
+              />
+
+              <div className="flex gap-x-2 -mt-2 justify-end">
+                <Button onClick={() => setIsEditing(false)} variant={"ghost"}>
+                  Thoát
+                </Button>
+                <Button disabled={isUpdatingBody} type="submit">
+                  Lưu
+                </Button>
+              </div>
+            </form>
           )}
         </div>
       </div>

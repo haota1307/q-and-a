@@ -14,6 +14,7 @@ import {
 import { buttonVariants } from "../ui/button";
 import { toast } from "../ui/use-toast";
 import { cn } from "@/lib/utils";
+import { deleteQuestionAction } from "@/lib/actions/delete-question-action";
 
 type Props = {
   questionId: Question["id"];
@@ -25,10 +26,31 @@ const DeleteQuestionDialog = ({
   onSuccess: handleSuccess,
   ...dialogProps
 }: Props) => {
-  const isExecuting = false;
+  const { execute, isExecuting } = useAction(deleteQuestionAction, {
+    onError: (err) => {
+      console.error(err);
+
+      toast({
+        title: "Có lỗi xãy ra 😓😓😓",
+        description: "Không thể xóa câu hỏi, vui lòng thử lại sau 😊😊😊",
+        variant: "destructive",
+      });
+    },
+
+    onSuccess: () => {
+      handleSuccess && handleSuccess();
+
+      toast({
+        title: "Thông báo 🔊🔊🔊",
+        description: "Câu hỏi của bạn đã được xóa ✅✅✅",
+      });
+    },
+  });
 
   const handleDelete = async (evt: React.MouseEvent) => {
     evt.preventDefault();
+
+    execute({ questionId });
   };
 
   const isFieldDisabled = isExecuting;

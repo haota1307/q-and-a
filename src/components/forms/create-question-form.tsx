@@ -20,6 +20,9 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { ChatBubbleIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import routes, { baseUrl } from "@/config/routes";
+import { useAction } from "next-safe-action/hooks";
+import { createQuestionAction } from "@/lib/actions/create-question-action";
+import { toast } from "@/components/ui/use-toast";
 
 type Props = {
   ownerId: User["id"];
@@ -27,7 +30,11 @@ type Props = {
   onSuccess: (data: QuestionDetail) => void;
 };
 
-const CreateQuestionForm = ({ eventSlug, onSuccess, ownerId }: Props) => {
+const CreateQuestionForm = ({
+  eventSlug,
+  onSuccess: handleSuccess,
+  ownerId,
+}: Props) => {
   const { isAuthenticated } = useKindeBrowserClient();
 
   const form = useForm<CreateQuestionSchema>({
@@ -40,10 +47,29 @@ const CreateQuestionForm = ({ eventSlug, onSuccess, ownerId }: Props) => {
     mode: "onSubmit",
   });
 
-  const isExecuting = false; // TODO
+  const { execute, isExecuting } = useAction(createQuestionAction, {
+    onSuccess: ({ data }) => {
+      if (data) {
+        handleSuccess(data);
+      }
+      toast({
+        title: "Thông báo 🔊🔊🔊",
+        description: "Câu hỏi của bạn đã được đăng tải! 🎉🎉🎉",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Có lỗi xảy ra 😓😓😓",
+        description:
+          "Câu hỏi của bạn không thể đăng tải, vui lòng thử lại 😊😊😊",
+      });
+    },
+    onSettled: () => form.reset(),
+  });
+
   const isFieldDisabled = form.formState.isSubmitting || isExecuting;
 
-  const onSubmit = async (values: CreateQuestionSchema) => console.log(values); // TODO
+  const onSubmit = async (values: CreateQuestionSchema) => execute(values);
 
   return (
     <FormProvider {...form}>
@@ -75,7 +101,7 @@ const CreateQuestionForm = ({ eventSlug, onSuccess, ownerId }: Props) => {
         <div className="flex justify-end -mt-3">
           <div className="flex justify-end">
             {isAuthenticated ? (
-              <Button>
+              <Button type="submit" size={"lg"} disabled={isFieldDisabled}>
                 <ChatBubbleIcon className="size-4 mr-2" />
                 <span className="text-xs lg:text-sm">
                   {isExecuting ? "Đang tạo..." : "Hỏi"}

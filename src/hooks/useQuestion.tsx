@@ -125,7 +125,7 @@ export const useVote = ({
       () => {
         execute({ questionId });
       },
-      1000,
+      300,
       { leading: false, trailing: true }
     ),
     [questionId]

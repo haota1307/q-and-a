@@ -6,7 +6,7 @@ import { EventViewModeSelect } from "@/components/selects/event-view-mode-select
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { BarChart, MessageCircleMore } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useIsParticipantView } from "@/hooks/use-is-participant-view";
+import { useIsParticipantView } from "@/hooks/useIsParticipantView";
 
 type Props = {
   eventSlug: string;
