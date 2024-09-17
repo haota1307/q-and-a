@@ -34,9 +34,9 @@ const EventCard = ({ event, className }: Props) => {
 
           <div className="flex justify-between text-[12px] text-violet-300 font-medium">
             <span>
-              <span>Q&A: {event._count.questions}</span>
+              <span>Câu hỏi: {event._count.questions}</span>
               <span className="mx-2">&bull;</span>
-              <span>Thăm dò: {event._count.polls}</span>
+              <span>Cuộc bình chọn: {event._count.polls}</span>
             </span>
             <span className="inline-flex gap-x-1 items-center font-bold">
               <Users className="size-4" />

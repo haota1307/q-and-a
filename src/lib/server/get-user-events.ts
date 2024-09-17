@@ -16,8 +16,6 @@ type Params = {
 export const getUserEvents = cache(async ({ cursor }: Params = {}) => {
   const user = await getKindeServerSession().getUser();
 
-  console.log(user);
-
   if (!user || !user.id) {
     throw new Error("Người dùng chưa đăng nhập!");
   }

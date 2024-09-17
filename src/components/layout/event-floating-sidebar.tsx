@@ -48,7 +48,7 @@ const EventFloatingSidebar = ({
           <button onClick={() => router.replace(pollsRoute)}>
             <SidebarItem
               isActive={pathname === pollsRoute}
-              text="Thăm dò ý kiến"
+              text="Bình chọn"
               icon={BarChart}
             >
               <span>{pollsCount}</span>
