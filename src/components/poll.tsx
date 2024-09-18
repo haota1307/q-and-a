@@ -5,6 +5,7 @@ import PollOptionsMenu from "@/components/menu/poll-option-menu";
 import PollVotersTooltip from "@/components/tooltips/poll-voters-tooltip";
 import { Button } from "@/components/ui/button";
 import { useIsParticipantView } from "@/hooks/useIsParticipantView";
+import { useLivePoll } from "@/hooks/usePoll";
 import { PollDetail } from "@/lib/prisma/validators/poll-validators";
 import { cn } from "@/lib/utils";
 import { getOptionVotesAsPercentage } from "@/lib/utils/poll-utils";
@@ -25,14 +26,14 @@ type Props = PropsWithClassName<{
   poll: PollDetail;
 }>;
 
-export const LivePoll = ({ poll, className }: Props) => {
+export const LivePoll = ({ poll: initialPoll, className }: Props) => {
   const { user } = useKindeBrowserClient();
 
   const [openCloseDialog, setOpenCloseDialog] = useState(false);
 
-  // TODO
-  const votedOptionIndex = 0;
-  const voteOption = (index: number) => {};
+  const { poll, voteOption, votedOptionIndex } = useLivePoll({
+    poll: initialPoll,
+  });
 
   const { isLive, options } = poll;
   const totalVotes = poll._count.votes;
