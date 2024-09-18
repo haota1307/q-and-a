@@ -1,6 +1,5 @@
 "use client";
 
-import routes, { baseUrl } from "@/config/routes";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -62,12 +61,7 @@ const BookmarkEventButton = ({ event }: Props) => {
 
   if (!user) {
     return (
-      <LoginLink
-        postLoginRedirectURL={`${baseUrl}${routes.event({
-          eventSlug: event.slug,
-          ownerId: event.ownerId,
-        })}`}
-      >
+      <LoginLink>
         <Button variant={"outline"} className="rounded-full">
           <Bookmark className="size-4" />
         </Button>

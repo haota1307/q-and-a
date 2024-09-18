@@ -12,16 +12,10 @@ const PublicAuthButtons = ({ className }: PropsWithClassName) => {
 
   return (
     <div className={cn("inline-flex items-center gap-x-3", className)}>
-      <LoginLink
-        postLoginRedirectURL={`${baseUrl}${pathname}${routes.dashboard}`}
-        className={cn(buttonVariants({ variant: "link" }))}
-      >
+      <LoginLink className={cn(buttonVariants({ variant: "link" }))}>
         Đăng nhập
       </LoginLink>
-      <RegisterLink
-        postLoginRedirectURL={`${baseUrl}${pathname}${routes.dashboard}`}
-        className={cn(buttonVariants({ variant: "link" }))}
-      >
+      <RegisterLink className={cn(buttonVariants({ variant: "link" }))}>
         Đăng kí
       </RegisterLink>
     </div>
@@ -29,7 +23,3 @@ const PublicAuthButtons = ({ className }: PropsWithClassName) => {
 };
 
 export default PublicAuthButtons;
-
-/** Note
- * postLoginRedirectURL: Nơi sẽ được điều hương sau khi đăng nhập
- */

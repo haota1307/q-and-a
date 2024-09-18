@@ -112,10 +112,6 @@ const CreateQuestionForm = ({
                 className={cn(
                   buttonVariants({ variant: "default", size: "lg" })
                 )}
-                postLoginRedirectURL={`${baseUrl}${routes.event({
-                  ownerId,
-                  eventSlug,
-                })}`}
               >
                 <Button>
                   <ChatBubbleIcon className="size-4 mr-2" />
