@@ -1,6 +1,7 @@
 import ClearSearchParamsButton from "@/components/buttons/clear-search-params-button";
 import RefreshButton from "@/components/buttons/refresh-button";
 import ClosedPollsList from "@/components/closed-polls-list";
+import NewPollDialog from "@/components/dialogs/new-poll-dialog";
 import { NoContent } from "@/components/illustrations";
 import PollsTabNavigation from "@/components/layout/polls-tab-navigation";
 import { Loader } from "@/components/loader";
@@ -65,15 +66,16 @@ const PollsPage = async ({
           <RefreshButton />
 
           {showNewPollButton && (
-            // TODO: add new poll dialog
-            <Button
-              variant={"ghost"}
-              className="bg-violet-100 text-primary hover:bg-violet-200 hover:text-primary"
-            >
-              <Plus className="size-4 mr-2" />
-              <span>Tạo mới</span>
-              <span className="hidden lg:inline"></span>
-            </Button>
+            <NewPollDialog eventId={event.id}>
+              <Button
+                variant={"ghost"}
+                className="bg-violet-100 text-primary hover:bg-violet-200 hover:text-primary"
+              >
+                <Plus className="size-4 mr-2" />
+                <span>Tạo mới</span>
+                <span className="hidden lg:inline"></span>
+              </Button>
+            </NewPollDialog>
           )}
         </div>
       </div>

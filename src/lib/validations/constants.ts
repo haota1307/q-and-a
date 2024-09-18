@@ -27,6 +27,6 @@ export const poll = {
     minLength: 1,
     maxLength: 100,
     minCount: 2,
-    maxCount: 6,
+    maxCount: 5,
   },
 } as const;
