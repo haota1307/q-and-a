@@ -13,6 +13,8 @@ import { LoginLink, useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import debounce from "lodash.debounce";
+import { useAction } from "next-safe-action/hooks";
+import { bookmarkEventAction } from "@/lib/actions/bookmark-event-action";
 
 type Props = {
   event: EventDetail;
@@ -24,6 +26,16 @@ const BookmarkEventButton = ({ event }: Props) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   const isParticipantView = false;
+
+  const { execute } = useAction(bookmarkEventAction, {
+    onError: (err) => {
+      console.error(err);
+
+      // revert the optimistic update
+      toggleClientBookmark();
+    },
+    onSuccess: () => console.log("Success bookmark!"),
+  });
 
   useEffect(() => {
     setIsBookmarked(
@@ -39,13 +51,19 @@ const BookmarkEventButton = ({ event }: Props) => {
     toast({
       title: "Thông báo 🔊🔊🔊",
       description: wasBookmarked
-        ? "🗑️🗑️🗑️ Đã xóa Q&A khỏi danh sách đánh dấu"
-        : "✅✅✅ Đã thên Q&A vào danh sách đánh dấu",
+        ? "🗑️🗑️🗑️ Đã xóa khỏi danh sách đánh dấu"
+        : "✅✅✅ Đã thêm vào danh sách đánh dấu",
     });
   };
 
   const performBookmark = useCallback(
-    debounce(() => {}, 1000, { leading: false, trailing: true }),
+    debounce(
+      () => {
+        execute({ eventId: event.id });
+      },
+      1000,
+      { leading: false, trailing: true }
+    ),
     [event.id]
   );
 
