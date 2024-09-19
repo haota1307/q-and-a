@@ -9,9 +9,12 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { buttonVariants } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { closePollAction } from "@/lib/actions/close-poll-action";
 import { cn } from "@/lib/utils";
 import { Poll } from "@prisma/client";
 import { AlertDialogProps } from "@radix-ui/react-alert-dialog";
+import { useAction } from "next-safe-action/hooks";
 
 type Props = {
   pollId: Poll["id"];
@@ -23,6 +26,31 @@ const ClosePollDialog = ({
   onSuccess: handleSuccess,
   ...dialogProps
 }: Props) => {
+  const { execute, isExecuting } = useAction(closePollAction, {
+    onError: (err) => {
+      console.error(err);
+
+      toast({
+        title: "Đã xảy ra lỗi",
+        description: "Đóng cuộc bình chọn thất bại. Vui lòng thử lại.",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      handleSuccess?.();
+
+      toast({ title: "Cuộc bình chọn của bạn đã được đóng!" });
+    },
+  });
+
+  const handleClose = (evt: React.MouseEvent) => {
+    evt.preventDefault();
+
+    execute({ pollId });
+  };
+
+  const isFieldDisabled = isExecuting;
+
   return (
     <AlertDialog {...dialogProps}>
       <AlertDialogContent>
@@ -39,18 +67,18 @@ const ClosePollDialog = ({
 
         <AlertDialogFooter>
           <AlertDialogCancel
-            // disabled={isFieldDisabled}
+            disabled={isFieldDisabled}
             className={cn(buttonVariants({ variant: "ghost" }))}
           >
             Hủy
           </AlertDialogCancel>
 
           <AlertDialogAction
-            // disabled={isFieldDisabled}
-            // onClick={handleDelete}
+            disabled={isFieldDisabled}
+            onClick={handleClose}
             className={cn(buttonVariants({ variant: "destructive" }))}
           >
-            Xóa
+            {isExecuting ? "Đang đóng..." : "Đóng"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
