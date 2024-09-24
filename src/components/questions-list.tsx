@@ -2,13 +2,17 @@
 
 import CreateQuestionForm from "@/components/forms/create-question-form";
 import { NoContent } from "@/components/illustrations";
+import { InfiniteScrollList } from "@/components/infinite-scroll-list";
 import Question from "@/components/question";
+import { getEventOpenQuestionsAction } from "@/lib/actions/get-event-open-question-action";
 import { QuestionDetail } from "@/lib/prisma/validators/question-validators";
 import { cn } from "@/lib/utils";
 import { QuestionsOrderBy } from "@/lib/utils/question-utils";
 import { PropsWithClassName } from "@/lib/utils/ui-utils";
 import { Event, User } from "@prisma/client";
-import { useState } from "react";
+import { useAction } from "next-safe-action/hooks";
+import { useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
 
 type Props = PropsWithClassName<{
   initialQuestions: QuestionDetail[];
@@ -27,6 +31,29 @@ export const OpenQuestionsList = ({
   questionId,
 }: Props) => {
   const [questions, setQuestions] = useState(initialQuestions);
+
+  const searchParams = useSearchParams();
+
+  const { executeAsync } = useAction(getEventOpenQuestionsAction);
+
+  const fetchMoreOpenQuestion = useCallback(
+    async ({ cursor }: { cursor?: QuestionDetail["id"] }) => {
+      const newQuestion = await executeAsync({
+        cursor,
+        eventSlug,
+        ownerId,
+        orderBy,
+        questionId,
+      });
+
+      if (!newQuestion?.data || newQuestion.data.length === 0) {
+        return [];
+      }
+
+      return newQuestion.data;
+    },
+    [executeAsync, eventSlug, ownerId, orderBy, questionId]
+  );
 
   const hasFilters = !!questionId;
 
@@ -48,9 +75,15 @@ export const OpenQuestionsList = ({
           </span>
         </NoContent>
       ) : (
-        questions.map((question) => (
-          <Question key={question.id} question={question} />
-        ))
+        <InfiniteScrollList<QuestionDetail>
+          key={`open-${searchParams.toString()}`}
+          items={questions}
+          setItems={setQuestions}
+          fetchMore={fetchMoreOpenQuestion}
+          renderItem={(question) => (
+            <Question key={question.id} question={question} />
+          )}
+        />
       )}
     </div>
   );
