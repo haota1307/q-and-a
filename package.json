@@ -42,6 +42,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "server-only": "^0.0.1",
+    "slugify": "^1.6.6",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "ts-pattern": "^5.3.1",
