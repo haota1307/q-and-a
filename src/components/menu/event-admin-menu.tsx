@@ -16,6 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { DeleteEventDialog } from "@/components/dialogs/delete-event-dialog";
 import { useIsParticipantView } from "@/hooks/useIsParticipantView";
+import { UpdateEventDialog } from "@/components/dialogs/update-event-dialog";
 
 type Props = PropsWithClassName<{
   event: EventDetail;
@@ -62,13 +63,12 @@ export const EventAdminMenu = ({ event, className }: Props) => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Dialogs*/}
-      {/* <UpdateEventDialog
+      <UpdateEventDialog
         open={openUpdateDialog}
         onOpenChange={setOpenUpdateDialog}
         event={event}
         onSuccess={() => setOpenUpdateDialog(false)}
-      /> */}
+      />
 
       <DeleteEventDialog
         open={openDeleteDialog}
