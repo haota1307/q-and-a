@@ -1,3 +1,4 @@
+import { UserAvatar } from "@/components/user-avatar";
 import { getUserInfo } from "@/lib/server/get-user-info";
 import { onlyDateFormatter } from "@/lib/utils/date-utils";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
@@ -12,6 +13,11 @@ const MyAccountPage = async () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center mt-32">
+      <UserAvatar
+        className="size-14 ring ring-white"
+        displayName={user.displayName}
+        color={user.color}
+      />
       <h1 className="text-2xl font-bold mt-3">{user.displayName}</h1>
       <time className="text-xs text-gray-500" suppressHydrationWarning>
         Gia nhập: {onlyDateFormatter.format(user.createdAt)}
