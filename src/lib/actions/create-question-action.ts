@@ -34,7 +34,17 @@ export const createQuestionAction = actionClient
           body,
           authorId: user.id,
           eventId: event.id,
-          // TODO: Tạo thông báo cho chủ sở hữu sự kiện 1 câu hỏi mới được tạo
+          ...(event.ownerId !== user.id
+            ? {
+                notifications: {
+                  create: {
+                    type: "NEW_QUESTION",
+                    userId: event.ownerId,
+                    eventId: event.id,
+                  },
+                },
+              }
+            : {}),
         },
         ...questionDetail,
       }),
@@ -57,3 +67,5 @@ export const createQuestionAction = actionClient
 
     return newQuestion;
   });
+
+//6:08:44
